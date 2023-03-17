@@ -1,0 +1,31 @@
+{
+  "name": "my-project",
+  "private": true,
+  "version": "0.0.0",
+  "license": "yakuptetik",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@ocrv/vue-tailwind-pagination": "^0.0.4",
+    "@rushstack/eslint-patch": "^1.2.0",
+    "@vue/eslint-config-airbnb": "^7.0.0",
+    "axios": "^1.3.4",
+    "pinia": "^2.0.28",
+    "vue": "^3.2.45",
+    "vue-router": "^4.1.6",
+    "vue3-pagination": "^1.0.16"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.0.0",
+    "autoprefixer": "^10.4.13",
+    "eslint": "^8.2.0",
+    "eslint-plugin-vue": "^9.2.0",
+    "postcss": "^8.4.20",
+    "tailwindcss": "^3.2.4",
+    "vite": "^4.0.0"
+  }
+}
