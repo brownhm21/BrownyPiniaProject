@@ -29,7 +29,7 @@ export default {
 </script> -->
 <script>
 import { ref } from "vue";
-import { computed, onMounted } from "vue";
+import { computed, watch ,onMounted } from "vue";
 import { useEmployeeStore } from "../store/employee";
 
 import VueTailwindPagination from "@ocrv/vue-tailwind-pagination";
@@ -52,25 +52,40 @@ export default {
 	},
 	setup() {
 		const storee = useEmployeeStore();
+		const searchQuery = ref("");
+
+		const handleSearch = () => {
+			storee.setSearchQuery(searchQuery.value);
+		};
+
+		watch(searchQuery, () => {
+			storee.searchEmployees();
+		});
 
 		const employees = computed(() => {
-			return storee.employees;
+			return storee.searchQuery
+				? storee.searchEmployees()
+				: storee.employees;
+			//storee.employees;
 		});
 
 		onMounted(() => {
 			storee.fetchEmployees();
 		});
 
-		const searchQuery = ref("");
+		// const searchQuery = ref("");
 
-		const filteredEmployees = computed(() => {
-			return storee.searchEmployees(searchQuery.value);
-		});
+		// const filteredEmployees = computed(() => {
+		// 	return storee.searchEmployees(searchQuery.value);
+		// });
 
 		return {
-			employees,
 			searchQuery,
-			filteredEmployees,
+            handleSearch,
+			employees,
+			// searchQuery,
+			
+			// filteredEmployees,
 		};
 	},
 };
@@ -150,6 +165,7 @@ export default defineComponent({
 									type="text"
 									autocomplete="off"
 									v-model="searchQuery"
+									 @input="handleSearch"
 									placeholder="Search..."
 								/>
 							</div>

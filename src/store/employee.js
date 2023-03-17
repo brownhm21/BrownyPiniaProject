@@ -6,6 +6,7 @@ export const useEmployeeStore = defineStore("employee", () => {
 	const employees = ref([]);
   const currentPage = ref(1);
   const perPage = ref(10);
+  const searchQuery = ref("");
 
 	const fetchEmployees = async () => {
 		try {
@@ -18,21 +19,29 @@ export const useEmployeeStore = defineStore("employee", () => {
 			console.error(error);
 		}
 	};
-	//   const searchEmployees = (query) => {
-	//     return employees.value.filter((employee) =>
-	//     employee.first.toLowerCase().includes(search.toLowerCase())
-	// 			|| employee.last.toLowerCase().includes(search.toLowerCase())
-	// 			|| employee.email.toLowerCase().includes(search.toLowerCase())
-	// 			|| employee.created.toLowerCase().includes(search.toLowerCase())
 
-	//     );
-	//   };
+	
 
-	const searchEmployees = (query) => {
+	const searchEmployees = () => {
 		return employees.value.filter((employee) => {
-			return employee.email.toLowerCase().includes(query.toLowerCase());
+		  const emailMatch = employee.email.toLowerCase().includes(searchQuery.value.toLowerCase());
+		  const firstMatch = employee.first.toLowerCase().includes(searchQuery.value.toLowerCase());
+		  const lastMatch = employee.last.toLowerCase().includes(searchQuery.value.toLowerCase());
+	  
+		  return emailMatch || firstMatch || lastMatch;
 		});
-	};
+	  };
+	
+	  const setSearchQuery = (query) => {
+		searchQuery.value = query;
+	  };
+	
+
+	// const searchEmployees = (query) => {
+	// 	return employees.value.filter((employee) => {
+	// 		return employee.email.toLowerCase().includes(query.toLowerCase());
+	// 	});
+	// };
 
 	// const paginate = () => {
 	// 	const startIndex = (currentPage.value - 1) * perPage.value;
@@ -53,8 +62,11 @@ export const useEmployeeStore = defineStore("employee", () => {
 	// });
 	return {
 		employees,
-		fetchEmployees,
-		searchEmployees,
+    searchQuery,
+    fetchEmployees,
+    searchEmployees,
+    setSearchQuery,
+		// searchEmployees,
 		// currentPage,
 		// perPage,
 		// paginate,
